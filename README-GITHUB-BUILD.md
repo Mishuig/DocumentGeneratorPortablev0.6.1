@@ -11,8 +11,8 @@
 
 ## Крок 2. Завантажити source
 
-1. Розпакуйте архів `DocumentGenerator-v0_5_4-source.zip`.
-2. У корінь репозиторію мають потрапити файли **зсередини** папки `DocumentGenerator/`:
+1. Розпакуйте архів `DocumentGenerator-v0_6_1-source.zip` (або поточну версію).
+2. У корінь репозиторію мають потрапити файли **зсередини** папки:
    - `DocumentGenerator.csproj`
    - `MainWindow.xaml`, `App.xaml`, …
    - папка `.github/workflows/build-windows.yml`
@@ -29,7 +29,7 @@
 cd DocumentGenerator
 git init
 git add .
-git commit -m "DocumentGenerator 0.5.4 portable source"
+git commit -m "DocumentGenerator 0.6.1 portable source"
 git branch -M main
 git remote add origin https://github.com/ВАШ_НІК/DocumentGenerator.git
 git push -u origin main
@@ -49,7 +49,7 @@ git push -u origin main
 
 1. Відкрийте завершений запуск workflow.
 2. Внизу сторінки в блоці **Artifacts** завантажте:
-   `DocumentGenerator-0.5.4-portable-win-x64`
+   `Docugen-0.6.1-portable-win-x64`
 3. Розпакуйте ZIP, наприклад у `C:\Apps\DocumentGenerator`.
 4. Запустіть `DocumentGenerator.exe`.
 
@@ -77,4 +77,4 @@ build-portable.cmd
 .\publish-windows.ps1
 ```
 
-Результат: `publish\win-x64\` і ZIP `publish\DocumentGenerator-0.5.4-portable-win-x64.zip`.
+Результат: `publish\win-x64\` і ZIP `publish\DocumentGenerator-0.6.1-portable-win-x64.zip`.

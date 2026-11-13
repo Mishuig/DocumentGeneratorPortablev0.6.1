@@ -2,7 +2,11 @@
 
 Windows desktop application for importing DOCX templates, filling `{{placeholders}}`, and generating new Word documents. Microsoft Word is optional; it is used only if the user chooses to open a DOCX for manual editing/viewing.
 
-## Що нового у 0.6.0 (Docugen)
+## Що нового у 0.6.1 (Docugen)
+
+- **Виправлено портативний запуск (single-file).** `AppPaths` тепер бере директорію EXE через `Environment.ProcessPath`, а не `AppContext.BaseDirectory` (який у single-file вказує на TEMP). Дані знову зберігаються поруч із EXE.
+
+## Що було у 0.6.0
 
 - **Кеш шаблонів.** Програма більше не працює з оригінальним `.docx` напряму: перегляд, підстановка й збереження йдуть із робочої копії в `cache/<id>/template.docx`. Оригінал лише читається зі спільним доступом, тому відкритий у Word файл не ламає програму. Копія оновлюється атомарно, якщо змінився SHA-256 оригіналу (також кнопкою «Оновити»). Якщо оригінал недоступний, працюємо з копією.
 - **«Відкрити шаблон»** відкриває окрему копію з `cache/<id>/view`, а не оригінал.
@@ -12,9 +16,12 @@ Windows desktop application for importing DOCX templates, filling `{{placeholder
 
 ## Current build status
 
-Version 0.6.0 — Windows 11 (Fluent) redesign in the logo colours, template cache, confirmation dialogs. NOT compiled in the authoring environment (no .NET SDK there): run the GitHub Actions build and check the app before release. For a ready portable EXE use GitHub Actions (see README-GITHUB-BUILD.md) or `build-portable.cmd` on Windows.
+Version 0.6.1 — Windows 11 (Fluent) redesign in the logo colours, template cache, confirmation dialogs. NOT compiled in the authoring environment (no .NET SDK there): run the GitHub Actions build and check the app before release. For a ready portable EXE use GitHub Actions (see README-GITHUB-BUILD.md) or `build-portable.cmd` on Windows.
 
-### What is new in 0.6.0
+### What is new in 0.6.1
+- **Fixed portable single-file launch.** `AppPaths` now uses `Environment.ProcessPath` (EXE directory) instead of `AppContext.BaseDirectory` (extraction temp). Data folders stay next to the EXE.
+
+### What was new in 0.6.0
 - **Template cache** (`cache/<id>/template.docx`): preview, placeholder search and document generation work only on a working copy; the original `.docx` is read with shared access and never modified or locked, so Word/Explorer holding the file no longer breaks saving or opening. Integrity is checked by SHA-256, copying is atomic (temp file + replace), a half-written original keeps the previous copy, up to 3 retries on a busy file, fallback to the cache when the original is missing. «Відкрити шаблон» opens a separate copy from `cache/<id>/view`. «Оновити» refreshes the cache if the original changed. Cache is removed together with the template. Errors go to `logs/application.log`.
 - **Confirmation dialogs** for deleting a template and clearing the fields (Esc cancels; for deletion the focus and Enter default to «Скасувати»).
 - **Redesign**: shared theme `Themes/Theme.xaml` (palette, line icons, button/input/dialog styles), custom title bar with the original logo, icons on all main buttons, restyled dialogs. App name in the UI: Docugen.

@@ -15,11 +15,18 @@ public static class AppPaths
 
     public static void Initialize()
     {
-        // Portable mode: data is stored beside the executable. If the folder is read-only,
-        // fail visibly rather than silently scattering user data in AppData.
-        Root = AppContext.BaseDirectory;
+        // Portable / single-file: data must live next to the EXE, not in the
+        // temporary extraction folder that AppContext.BaseDirectory points to.
+        var processPath = Environment.ProcessPath;
+        if (!string.IsNullOrEmpty(processPath))
+            Root = Path.GetDirectoryName(processPath)!;
+        else
+            Root = AppContext.BaseDirectory;
+
         foreach (var folder in new[] { Data, Templates, Exports, Backups, Logs, Cache })
             Directory.CreateDirectory(folder);
+
+        // Fail fast if the folder is read-only (e.g. Program Files without elevation).
         var probe = Path.Combine(Data, $".write-test-{Guid.NewGuid():N}");
         File.WriteAllText(probe, "ok");
         File.Delete(probe);
